@@ -3,33 +3,14 @@
 static heap_info heap;
 
 /**
- * print_heap - prints contents of heap, used for visualization
- */
-void print_heap(void)
-{
-	char *p = heap.heap_start;
-	size_t i = 0;
-
-	if (!p)
-		return;
-	while (GET_SIZE(p) >= HDR_SZ + MIN_SIZE)
-	{
-		p += GET_SIZE(p);
-		++i;
-	}
-	if (p + HDR_SZ != sbrk(0))
-		exit(1);
-}
-
-/**
- * add_header - add header info
- * @addr: header address
+ * add_header - header info add
+ * @addr: hader of the address
  * @size: size of this memory block, size + HDR_SZ
  * @prev: previous chunk offset, 0 if previous is allocated
  */
 void add_header(void *addr, size_t size, size_t prev)
 {
-	block_info *block;
+	block_info *block = NULL;
 
 	block = addr;
 	block->size = prev ? size + HDR_SZ + 1 : size + HDR_SZ;

@@ -1,23 +1,23 @@
 #include "malloc.h"
 
 /**
- * _free - free implementation
- * @ptr: pointer
+ * _free - free memory block
+ * @ptr: pointer to a memory block
 */
 void _free(void *ptr)
 {
-	char *index = NULL, *next = NULL;
+	char *p, *next;
 
 	if (!ptr)
 		return;
-	index = ptr;
-	index -= HDR_SZ;
-	next = ptr + GET_SIZE(index);
+	p = ptr;
+	p -= HDR_SZ;
+	next = p + GET_SIZE(p);
 	if (_GET_SIZE(next) & 1)
 	{
 		putchar('\n');
 		kill(getpid(), SIGABRT);
 	}
-	((block_info *)next)->prev = GET_SIZE(index);
+	((block_info *)next)->prev = GET_SIZE(p);
 	((block_info *)next)->size |= 1;
 }
