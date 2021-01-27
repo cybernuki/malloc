@@ -9,21 +9,44 @@
 #include <sys/types.h>
 #include <unistd.h>
 
-#define GET_SIZE(p) ((((block_info *)(p))->size) & LSB_ZERO_MASK)
-#define GET_PREV(p) ((((block_info *)(p))->prev) & LSB_ZERO_MASK)
+#define align(offset, align) ((offset + (align - 1)) & -align)
+#define ALIGNMENT sizeof(void *)
+#define MIN_SIZE sizeof(void *)
+#define PAGESIZE sysconf(_SC_PAGESIZE)
+#define HDR_SZ sizeof(block_info)
+#define align_up(num, align) (((num) + ((align)-1)) & ~((align)-1))
+
+/* Macros to get struct members */
+#define LSB_ZERO_MASK 0xfffffffffffffffe
+/* Get Size and Prev */
 #define _GET_SIZE(p) (((block_info *)(p))->size)
 #define _GET_PREV(p) (((block_info *)(p))->prev)
 
-#define ALIGNMENT sizeof(void *)
-#define align(offset, align) ((offset + (align - 1)) & -align)
+/* Get Size and Prev with unset LSB*/
+#define GET_SIZE(p) ((((block_info *)(p))->size) & LSB_ZERO_MASK)
+#define GET_PREV(p) ((((block_info *)(p))->prev) & LSB_ZERO_MASK)
 
-#define MIN_SIZE sizeof(void *)
+/**
+ * struct heap_info_s - stores info about heap
+ * @heap_start: start of heap
+ * @heap_end: end of heap
+ */
+typedef struct heap_info_s
+{
+    void *heap_start;
+    void *heap_end;
+} heap_info;
 
-#define HDR_SZ sizeof(block_info)
-#define align_up(num, align) (((num) + ((align)-1)) & ~((align)-1))
-#define PADDING(n) ((ALIGNMENT - ((n) & (ALIGNMENT - 1))) & (ALIGNMENT - 1))
-#define PAGESIZE sysconf(_SC_PAGESIZE)
-#define LSB_ZERO_MASK 0xfffffffffffffffe
+/**
+ * struct block_info_s - stores info block
+ * @prev: prev
+ * @size: size
+ */
+typedef struct block_info_s
+{
+    size_t prev;
+    size_t size;
+} block_info;
 
 /**
  * struct chunk_s - malloc chunk header
@@ -40,6 +63,8 @@ typedef struct chunk_s
     struct chunk_s *next_free;
     struct chunk_s *prev_free;
 } chunk_t;
+
+#define PADDING(n) ((ALIGNMENT - ((n) & (ALIGNMENT - 1))) & (ALIGNMENT - 1))
 
 void *naive_malloc(size_t size);
 void *_malloc(size_t size);
