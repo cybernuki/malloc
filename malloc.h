@@ -28,8 +28,8 @@
  */
 typedef struct heap_info_s
 {
-    void *heap_start;
-    void *heap_end;
+	void *heap_start;
+	void *heap_end;
 } heap_info;
 
 /**
