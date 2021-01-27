@@ -15,14 +15,9 @@
 #define PAGESIZE sysconf(_SC_PAGESIZE)
 #define HDR_SZ sizeof(block_info)
 #define align_up(num, align) (((num) + ((align) - 1)) & ~((align) - 1))
-
-/* Macros to get struct members */
 #define LSB_ZERO_MASK 0xfffffffffffffffe
-/* Get Size and Prev */
 #define _GET_SIZE(p) (((block_info *)(p))->size)
 #define _GET_PREV(p) (((block_info *)(p))->prev)
-
-/* Get Size and Prev with unset LSB*/
 #define GET_SIZE(p) ((((block_info *)(p))->size) & LSB_ZERO_MASK)
 #define GET_PREV(p) ((((block_info *)(p))->prev) & LSB_ZERO_MASK)
 
