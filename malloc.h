@@ -1,6 +1,7 @@
 #ifndef _MALLOC_H_
 #define _MALLOC_H_
 
+#include "ANSI-color-codes.h"
 #include <errno.h>
 #include <signal.h>
 #include <stdio.h>
