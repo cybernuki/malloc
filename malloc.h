@@ -2,6 +2,10 @@
 #define _MALLOC_H_
 
 #include <stddef.h>
+#include <error.h>
+#include <errno.h>
+#include <stdio.h>
+#include <unistd.h>
 
 #define FOOT_SIZE (sizeof(size_t))
 #define HEAD_SIZE (sizeof(size_t))
