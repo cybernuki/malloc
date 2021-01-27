@@ -12,7 +12,7 @@ void _free(void *ptr)
 		return;
 	index = ptr;
 	index -= HDR_SZ;
-	next = p + GET_SIZE(index);
+	next = ptr + GET_SIZE(index);
 	if (_GET_SIZE(next) & 1)
 	{
 		putchar('\n');
