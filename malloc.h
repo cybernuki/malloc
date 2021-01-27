@@ -11,6 +11,7 @@
 
 #define align(offset, align) ((offset + (align - 1)) & -align)
 #define ALIGNMENT sizeof(void *)
+#define PADDING(n) ((ALIGNMENT - ((n) & (ALIGNMENT - 1))) & (ALIGNMENT - 1))
 #define MIN_SIZE sizeof(void *)
 #define PAGESIZE sysconf(_SC_PAGESIZE)
 #define HDR_SZ sizeof(block_info)
@@ -58,8 +59,6 @@ typedef struct chunk_s
 	struct chunk_s *next_free;
 	struct chunk_s *prev_free;
 } chunk_t;
-
-#define PADDING(n) ((ALIGNMENT - ((n) & (ALIGNMENT - 1))) & (ALIGNMENT - 1))
 
 void *naive_malloc(size_t size);
 void *_malloc(size_t size);

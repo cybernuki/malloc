@@ -37,14 +37,13 @@ static void *_sbrk_apply(size_t size, void *chunk, size_t unused)
 void *naive_malloc(size_t size)
 {
 	static void *start;
-	static size_t n_chunks;
+	static size_t chucks_len;
 	unsigned char *chunk = NULL;
-	size_t unused = 0;
-	size_t chunk_index = 0;
+	size_t unused = 0, chunk_index = 0;
 
-	if (n_chunks)
+	if (chucks_len)
 	{
-		for (chunk = start; chunk_index < n_chunks; ++chunk_index)
+		for (chunk = start; chunk_index < chucks_len; ++chunk_index)
 			chunk += *((size_t *)(chunk));
 		unused = *((size_t *)(chunk));
 	}
@@ -57,7 +56,7 @@ void *naive_malloc(size_t size)
 		chunk = _sbrk_apply(size, chunk, unused);
 	if (!chunk)
 		return (NULL);
-	n_chunks += 1;
+	chucks_len += 1;
 	unused = *((size_t *)(chunk));
 	*((size_t *)(chunk)) =
 		size + sizeof(size_t);
