@@ -14,7 +14,7 @@
 #define MIN_SIZE sizeof(void *)
 #define PAGESIZE sysconf(_SC_PAGESIZE)
 #define HDR_SZ sizeof(block_info)
-#define align_up(num, align) (((num) + ((align)-1)) & ~((align)-1))
+#define align_up(num, align) (((num) + ((align) - 1)) & ~((align) - 1))
 
 /* Macros to get struct members */
 #define LSB_ZERO_MASK 0xfffffffffffffffe
