@@ -48,9 +48,7 @@ void *naive_malloc(size_t size)
 		unused = *((size_t *)(chunk));
 	}
 	else
-	{
 		chunk = start = sbrk(0);
-	}
 	size += PADDING(size);
 	if (unused < size + 2 * sizeof(size_t))
 		chunk = _sbrk_apply(size, chunk, unused);
@@ -58,8 +56,7 @@ void *naive_malloc(size_t size)
 		return (NULL);
 	chucks_len += 1;
 	unused = *((size_t *)(chunk));
-	*((size_t *)(chunk)) =
-		size + sizeof(size_t);
+	*((size_t *)(chunk)) = size + sizeof(size_t);
 	*((size_t *)(chunk + size + sizeof(size_t))) =
 		unused - (size + sizeof(size_t));
 	return (chunk + sizeof(size_t));
