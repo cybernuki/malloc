@@ -1,7 +1,6 @@
 #ifndef _MALLOC_H_
 #define _MALLOC_H_
 
-#include "ANSI-color-codes.h"
 #include <errno.h>
 #include <signal.h>
 #include <stdio.h>
@@ -22,7 +21,7 @@
 
 #define HDR_SZ sizeof(block_info)
 #define align_up(num, align) (((num) + ((align)-1)) & ~((align)-1))
-
+#define PADDING(n) ((ALIGNMENT - ((n) & (ALIGNMENT - 1))) & (ALIGNMENT - 1))
 #define PAGESIZE sysconf(_SC_PAGESIZE)
 #define LSB_ZERO_MASK 0xfffffffffffffffe
 
@@ -41,17 +40,6 @@ typedef struct chunk_s
     struct chunk_s *next_free;
     struct chunk_s *prev_free;
 } chunk_t;
-
-#define CHUNK_PREV_USED_MASK ((size_t)1)
-#define CHUNK_PREV_SIZE(p) ((p)->prev_size)
-#define CHUNK_SIZE(p) ((p)->size & ~CHUNK_PREV_USED_MASK)
-#define CHUNK_PREV_USED(p) ((p)->size & CHUNK_PREV_USED_MASK)
-#define CHUNK_NEXT(p) ((chunk_t *)((char *)(p) + CHUNK_SIZE(p)))
-#define CHUNK_PREV(p) ((chunk_t *)((char *)(p)-CHUNK_PREV_SIZE(p)))
-#define CHUNK_SET_PREV_SIZE(p, n) ((p)->prev_size = (n))
-#define CHUNK_SET_SIZE(p, n) ((p)->size = (n) | CHUNK_PREV_USED(p))
-#define CHUNK_SET_PREV_USED(p) ((p)->size |= CHUNK_PREV_USED_MASK)
-#define CHUNK_UNSET_PREV_USED(p) ((p)->size &= ~CHUNK_PREV_USED_MASK)
 
 void *naive_malloc(size_t size);
 void *_malloc(size_t size);
