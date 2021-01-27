@@ -40,7 +40,7 @@ typedef struct heap_info_s
 typedef struct block_info_s
 {
 	size_t prev;
-	ize_t size;
+	size_t size;
 } block_info;
 
 /**
