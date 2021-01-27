@@ -32,12 +32,10 @@ static void *_naive_malloc_sbrk(size_t size, void *chunk, size_t remaining)
 }
 
 /**
- * naive_malloc - dynamically allocate memory
- *
- * @size: size to allocate
- *
- * Return: If memory allocation fails, return NULL.
- * Otherwise, return a pointer to the start of the allocated memory region.
+ * naive_malloc - naive malloc that is presented in the concept page
+ * @size: size needed to be allocated for the user
+ * Return: return a pointer to the allocated memory that is suitably
+ * aligned for any kind of variable
  */
 void *naive_malloc(size_t size)
 {
