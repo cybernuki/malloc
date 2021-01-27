@@ -5,8 +5,8 @@ static heap_info heap;
 /**
  * add_header - header info add
  * @addr: hader of the address
- * @size: size of this memory block, size + HDR_SZ
- * @prev: previous chunk offset, 0 if previous is allocated
+ * @size: size of the memory block
+ * @prev: previous chunk offset
  */
 void add_header(void *addr, size_t size, size_t prev)
 {
@@ -18,14 +18,14 @@ void add_header(void *addr, size_t size, size_t prev)
 }
 
 /**
- * expand - expand heap by calling sbrk()
+ * expand - use sbrk()
  * @size: size needed by user
  * Return: pointer to memory block header
  */
 void *expand(size_t size)
 {
 	size_t pg_sz;
-	char *p, *tmp;
+	char *p = NULL, *tmp = NULL;
 
 	pg_sz = 2 * HDR_SZ + MIN_SIZE + size;
 	pg_sz += heap.heap_start ? 0 : HDR_SZ;
